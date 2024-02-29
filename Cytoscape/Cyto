@@ -1,0 +1,101 @@
+var cy = cytoscape({
+  container: document.getElementById('cy'),
+  elements: [
+    { data: { id: 'a' } },
+    { data: { id: 'b' } },
+    { data: { id: 'c' } },
+    { data: { id: 'd' } },
+    { data: { id: 'e' } },
+    { data: { id: 'ab', source: 'a', target: 'b' } },
+    { data: { id: 'bc', source: 'b', target: 'c' } },
+    { data: { id: 'ac', source: 'a', target: 'c' } },
+    { data: { id: 'cd', source: 'c', target: 'd' } },
+    { data: { id: 'de', source: 'd', target: 'e' } }
+  ],
+  style: [
+    {
+      selector: 'node',
+      style: {
+        'background-color': 'lightblue',
+        'label': 'data(id)'
+      }
+    },
+    {
+      selector: 'edge',
+      style: {
+        'width': 3,
+        'line-color': 'gray'
+      }
+    }
+  ]
+});
+
+// populate the dropdown menus with the node list
+var nodeList = document.getElementById('nodeList');
+var sourceNode = document.getElementById('sourceNode');
+var targetNode = document.getElementById('targetNode');
+cy.nodes().forEach(function(node) {
+  var option1 = document.createElement('option');
+  option1.value = node.id();
+  option1.text = node.id();
+  nodeList.add(option1);
+  
+  var option2 = document.createElement('option');
+  option2.value = node.id();
+  option2.text = node.id();
+  sourceNode.add(option2);
+  
+  var option3 = document.createElement('option');
+  option3.value = node.id();
+  option3.text = node.id();
+  targetNode.add(option3);
+});
+
+// add an event listener to the delete node button
+// add an event listener to the delete node button
+var deleteNodeButton = document.getElementById('deleteNodeButton');
+deleteNodeButton.addEventListener('click', function() {
+  var selectedNode = nodeList.value;
+  var node = cy.$('#' + selectedNode);
+  if (node.length > 0) {
+    var data = node.data();
+    var edges = node.connectedEdges().map(function(edge) {
+      return edge.data();
+    });
+    var deletedNode = {
+      'node': data,
+      'edges': edges
+    };
+    console.log(JSON.stringify(deletedNode));
+    
+    node.remove();
+    
+    // remove the node from all three dropdowns
+    var options = document.querySelectorAll('#nodeList option, #sourceNode option, #targetNode option');
+    options.forEach(function(option) {
+      if (option.value === selectedNode) {
+        option.remove();
+      }
+    });
+  }
+});
+
+
+// add an event listener to the delete edge button
+var deleteEdgeButton = document.getElementById('deleteEdgeButton');
+deleteEdgeButton.addEventListener('click', function() {
+  var selectedSourceNode = sourceNode.value;
+  var selectedTargetNode = targetNode.value;
+  var sourceNodeObj = cy.$('#' + selectedSourceNode);
+  var targetNodeObj = cy.$('#' + selectedTargetNode);
+  var edge = sourceNodeObj.edgesWith(targetNodeObj);
+  if (edge.length > 0) {
+    var data = edge.data();
+    var deletedEdge = {
+      'edge': data
+    };
+    console.log(JSON.stringify(deletedEdge));
+    
+    edge.remove();
+  }
+});

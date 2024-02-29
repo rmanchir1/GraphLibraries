@@ -1,0 +1,15 @@
+#cy {
+  width: 80%;
+  height: 500px;
+  border: 1px solid gray;
+  margin-bottom: 20px;
+}
+
+#nodeList, #sourceNode, #targetNode {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+#deleteNodeButton, #deleteEdgeButton {
+  margin-bottom: 20px;
+}

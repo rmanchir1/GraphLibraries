@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Cytoscape.js Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <h1>Cytoscape.js Demo</h1>
+    <div id="cy"></div>
+    <label> Select Node</label>
+
+    <select id="nodeList"></select>
+    <div>        <button id="deleteNodeButton">Delete Selected Node</button>
+      </div>
+    <div>
+      <label> Select Node 1</label>
+      <select id="sourceNode"></select>
+    </div>
+    <div>
+      <label> Select Node 2</label><select id="targetNode"></select>
+    </div>
+
+    <button id="deleteEdgeButton">Delete Selected Edge</button>
+  </body>
+</html>
